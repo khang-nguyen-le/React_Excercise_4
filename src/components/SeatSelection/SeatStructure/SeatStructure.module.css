@@ -1,0 +1,61 @@
+.screen {
+    width: 100%;
+    background-color: #ff9800;
+    margin-bottom: 2rem;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.screen__desc {
+    color: black;
+    margin-bottom: 0;
+    letter-spacing: 0.3rem;
+    font-weight: 500;
+}
+
+.seatBlock td {
+    background-color: transparent;
+    border-color: transparent;
+    color: white;
+    text-align: center;
+}
+
+.seatStatus {
+    text-align: center;
+}
+
+.seatStatus ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+}
+
+.seatStatus li {
+    display: flex;
+    margin-right: 2rem;
+    align-items: center;
+}
+
+.smallBox {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.greenBox {
+    background-color: green;
+}
+
+.redBox {
+    background-color: red;
+}
+
+.emptyBox {
+    background-color: white;
+}
+
+.actions {
+    text-align: center;
+    margin: 2rem 0;
+}

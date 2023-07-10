@@ -1,0 +1,9 @@
+.detailTable td,
+.detailTable th {
+    background-color: transparent;
+    color: white;
+}
+
+.detailTable td {
+    color: yellowgreen;
+}
