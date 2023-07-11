@@ -2,36 +2,74 @@ import React, { Component } from "react";
 import classes from "./SeatStructure.module.css";
 import SeatItem from "./../SeatItem/SeatItem";
 import Button from "../../UI/Button/Button";
+import { connect } from "react-redux";
 
-export default class SeatStructure extends Component {
+class SeatStructure extends Component {
+  constructor() {
+    super();
+    this.state = {
+      seats: [],
+    };
+  }
+
+  selectSeatHandler = (selectedSeat) => {
+    console.log(selectedSeat);
+    console.log(this.state.seats);
+    let newSeats = [...this.state.seats];
+    let index = newSeats.findIndex((seat) => seat.soGhe === selectedSeat.soGhe);
+
+    if (index !== -1) {
+      newSeats.splice(index, 1);
+    } else {
+      newSeats.push(selectedSeat);
+    }
+
+    this.setState({
+      seats: newSeats,
+    });
+    console.log(newSeats);
+  };
+
+  // confirmSeatHandler = () => {
+  //   const seat = document.getElementsByName("seat");
+  //   console.log(seat);
+  // };
+
   render() {
-    let { seats } = this.props;
-    let seatCol = seats[0].danhSachGhe;
+    let { seats } = this.props.seats;
+
     return (
       <>
         <div className={classes.screen}>
           <h5 className={classes.screen__desc}>SCREEN THIS WAY</h5>
         </div>
+
         <table className={`${classes.seatBlock} table`}>
           <tbody>
-            <tr>
-              <td></td>
-              {seatCol.map((item, index) => (
-                <td>{index + 1}</td>
-              ))}
-            </tr>
-            {seats.map((seatRow) => {
+            {seats.map((seatRow, index) => {
               return (
-                <tr>
+                <tr key={index}>
                   <td>{seatRow.hang}</td>
-                  {seatRow.danhSachGhe.map((seat) => (
-                    <SeatItem seat={seat} />
-                  ))}
+                  {seatRow.danhSachGhe.map((seat) => {
+                    if (!seatRow.hang) {
+                      return <td>{seat.soGhe}</td>;
+                    } else {
+                      return (
+                        <SeatItem
+                          seat={seat}
+                          onChange={() => {
+                            return this.selectSeatHandler(seat);
+                          }}
+                        />
+                      );
+                    }
+                  })}
                 </tr>
               );
             })}
           </tbody>
         </table>
+
         <div className={classes.seatStatus}>
           <ul>
             <li>
@@ -52,10 +90,31 @@ export default class SeatStructure extends Component {
             </li>
           </ul>
         </div>
+
         <div className={classes.actions}>
-          <Button>Confirm Selection</Button>
+          <Button
+            onClick={() => {
+              const action = {
+                type: "DAT_CHO",
+                payload: this.state.seats,
+              };
+              this.props.dispatch(action);
+            }}
+          >
+            Confirm Selection
+          </Button>
         </div>
       </>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    seats: state.seats,
+  };
+};
+
+const ReduxComponent = connect(mapStateToProps)(SeatStructure);
+
+export default ReduxComponent;
